@@ -1,0 +1,21 @@
+<svg width="60" height="60" viewBox="0 0 24 60" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient Definition -->
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4facfe; stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a64fff; stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Speech bubble with eye -->
+  <g>
+    <rect x="5" y="10" width="40" height="40" rx="8" ry="8" fill="url(#grad)" />
+    <circle cx="25" cy="30" r="10" fill="white"/>
+    <circle cx="25" cy="30" r="5" fill="url(#grad)"/>
+  </g>
+  
+  <!-- BlinkUp text -->
+  <text x="55" y="38" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="600" fill="url(#grad)">
+    BlinkUp
+  </text>
+</svg>
