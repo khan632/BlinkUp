@@ -15,6 +15,7 @@ import type z from "zod";
 import { signUpFormSchema } from "@/_lib/validations";
 import { Loader } from "@/components/custom/Loader";
 import { Link } from "react-router-dom";
+import { createNewUserAccount } from "@/_lib/appwrite/api";
 
 
 
@@ -32,8 +33,10 @@ const SignUpForm = () => {
     });
 
     // 2. Define a submit handler
-    function onSubmit(values: z.infer<typeof signUpFormSchema>) {
-        console.log(values);
+    async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
+        const newUser = await createNewUserAccount(values)
+        console.log(newUser);
+        
     }
 
     return (
