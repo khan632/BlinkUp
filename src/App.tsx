@@ -5,11 +5,12 @@ import SignUpForm from './_auth/authForm/SignUpForm';
 import { Home } from './_root/pages/pageExport';
 import AuthLayout from './_auth/AuthLayout';
 import RootLayout from './_root/RootLayout';
+import { Button } from './components/ui/button';
 
 function App() {
 
   return (
-    <main className='d-flex h-screen'>
+    <main className='flex h-screen'>
       <Routes>
         {/* Public routes which will everyone like: signin or signup */}
         <Route element={ <AuthLayout /> }>
