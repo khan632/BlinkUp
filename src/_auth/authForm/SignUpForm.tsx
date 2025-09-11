@@ -16,10 +16,10 @@ import { signUpFormSchema } from "@/_lib/validations";
 import { Loader } from "@/components/custom/Loader";
 import { Link } from "react-router-dom";
 import { createNewUserAccount } from "@/_lib/appwrite/api";
-
-
+import { useToast } from "@/hooks/use-toast"
 
 const SignUpForm = () => {
+    const { toast } = useToast();
     const isLoading = false ;
     // 1. define your form
     const form = useForm<z.infer<typeof signUpFormSchema>>({
@@ -35,7 +35,13 @@ const SignUpForm = () => {
     // 2. Define a submit handler
     async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
         const newUser = await createNewUserAccount(values)
-        console.log(newUser);
+
+        if(!newUser) {
+            return toast({
+                title: 'Uh-oh! Looks like the signup party hit a snag 🎉🚫. Try again!'
+            })
+        }
+        
         
     }
 
