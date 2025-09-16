@@ -15,12 +15,14 @@ import type z from "zod";
 import { signUpFormSchema } from "@/_lib/validations";
 import { Loader } from "@/components/custom/Loader";
 import { Link } from "react-router-dom";
-import { createNewUserAccount } from "@/_lib/appwrite/api";
 import { useToast } from "@/hooks/use-toast"
+import { useCreateuserAccountMutation, useSigninAccount } from "@/_lib/react-query/queriesAndMutation";
 
 const SignUpForm = () => {
     const { toast } = useToast();
-    const isLoading = false ;
+
+    const { mutateAsync: createNewUserAccount, isLoading: isCreatingAccount } = useCreateuserAccountMutation();
+    const { mutateAsync: signInAccount, isLoading: isSignIn } = useSigninAccount();
     // 1. define your form
     const form = useForm<z.infer<typeof signUpFormSchema>>({
         resolver: zodResolver(signUpFormSchema),
@@ -36,13 +38,24 @@ const SignUpForm = () => {
     async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
         const newUser = await createNewUserAccount(values)
 
-        if(!newUser) {
+        if (!newUser) {
             return toast({
                 title: 'Uh-oh! Looks like the signup party hit a snag 🎉🚫. Try again!'
             })
         }
-        
-        
+
+        const session = await signInAccount({
+            email: values.email,
+            password: values.password
+        })
+
+        if (!session) {
+            return toast({
+                title: "We couldn’t verify your social login. Please reconnect your account or try again later."
+            })
+        }
+
+
     }
 
     return (
@@ -105,9 +118,9 @@ const SignUpForm = () => {
                         )}
                     />
                     <Button type="submit" className="shad-button_primary rounded-3xl">
-                        {isLoading ? (
+                        {isCreatingAccount ? (
                             <div className="flex-center gap-2">
-                               <Loader /> Loading...
+                                <Loader /> Loading...
                             </div>
                         ) : "Sign up"}
                     </Button>
